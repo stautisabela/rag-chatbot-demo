@@ -10,5 +10,5 @@ class VectorStore:
         self.doc_store.extend(documents)
 
     def search(self, query_embedding, k=5):
-        distances, indices = self.index.search(query_embedding, k)
-        return [self.doc_store[i] for i in indices[0]], distances[0]
+        distances, indexes = self.index.search(query_embedding, k)
+        return [self.doc_store[i] for i in indexes[0]], distances[0]
