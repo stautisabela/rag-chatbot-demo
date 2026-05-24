@@ -3,6 +3,7 @@ import PyPDF2
 from sentence_transformers import SentenceTransformer
 from vector_store import VectorStore
 
+# Output size for all-MiniLM-L6-v2 model is 384
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 store = VectorStore(dim=384)
 
@@ -11,8 +12,7 @@ def remove_duplicates(chunks):
     return unique_chunks
 
 def reset_store():
-    global store
-    store = VectorStore(dim=384)
+    store.reset()
 
 def process_file(uploaded_file):
     os.makedirs("uploads", exist_ok=True)
