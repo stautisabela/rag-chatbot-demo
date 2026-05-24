@@ -1,7 +1,7 @@
 import openai
 from sentence_transformers import SentenceTransformer
 from difflib import SequenceMatcher
-from document_processor import index, doc_store
+from document_processor import store
 
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -23,10 +23,9 @@ def retrieve_and_answer(query):
         raise ValueError("OpenAI API key not set. Please provide a valid API key.")
 
     query_embedding = embedding_model.encode([query])
-    
+
     # Retrieve more than needed to allow filtering
-    distances, indices = index.search(query_embedding, k=10)
-    sources = [doc_store[i] for i in indices[0]]
+    sources, distances = store.search(query_embedding, k=10)
     sources = filter_duplicates(sources)
     
     # Limit context to top 3 unique sources
